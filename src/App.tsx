@@ -36,7 +36,7 @@ export function App() {
           <div className="card-body"><span className="card-category">{p.meta.category}</span><h3>{p.meta.title}<span>↗</span></h3><p>{p.meta.description}</p></div>
         </a>)}</div>
         <aside className="next-step"><span className="step-number">01</span><div><h3>Добавьте следующий вариант</h3><p>Прикрепите скриншот в чате агента и напишите: «Собери новый прототип по этому макету». Он появится здесь после сохранения.</p></div></aside>
-        <footer className="gallery-footer">Dais UI · Демонстрационные данные<span>Состояние каждого варианта сохраняется в вашем браузере</span></footer>
+        <footer className="gallery-footer">Dais UI · Демонстрационные данные<span>Каждый вариант открывается с исходными демоданными</span></footer>
       </main>}
   </>;
 }

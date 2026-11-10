@@ -15,7 +15,7 @@ fs.writeFileSync(path.join(folder, 'index.tsx'), `import { Collection } from '..
 export const meta = { title: ${JSON.stringify(title)}, description: 'Новый вариант на компонентах Dais', category: 'Черновик' };
 
 export default function Prototype() {
-  return <Collection title={${JSON.stringify(title)}} storageKey={${JSON.stringify('dais-prototype:' + slug + ':v1')}} />;
+  return <Collection title={${JSON.stringify(title)}} />;
 }
 `);
 console.log(`Создан src/prototypes/${slug}/index.tsx. Адрес: /#/${slug}. Галерея подхватит его автоматически.`);

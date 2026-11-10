@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Button, TextField, ModalDF } from '@daisforge/ui';
 import { Canvas, TableCanvas, type ColumnConfig, type SortColumn } from '@daisforge/ui/components/TableCanvas';
-import { formatNumber, initialRows, isRows, type CollectionItem } from './data';
+import { formatNumber, initialRows, type CollectionItem } from './data';
 
-export function Collection({ title = 'Коллекция', storageKey = 'dais-prototype:collection:v1' }: { title?: string; storageKey?: string }) {
-  const [rows, setRows] = useState<CollectionItem[]>(() => { try { const saved = JSON.parse(localStorage.getItem(storageKey) ?? 'null'); return isRows(saved) ? saved : structuredClone(initialRows); } catch { return structuredClone(initialRows); } });
+export function Collection({ title = 'Коллекция' }: { title?: string }) {
+  const [rows, setRows] = useState<CollectionItem[]>(() => structuredClone(initialRows));
   const [filter, setFilter] = useState('Все');
   const [tab, setTab] = useState('all');
   const [query, setQuery] = useState('');
@@ -15,10 +15,8 @@ export function Collection({ title = 'Коллекция', storageKey = 'dais-pr
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('10');
   const [error, setError] = useState('');
-  const [storageError, setStorageError] = useState(false);
   const [tableEpoch, setTableEpoch] = useState(0);
   const snapshot = useRef<CollectionItem[] | null>(null);
-  useEffect(() => { try { localStorage.setItem(storageKey, JSON.stringify(rows)); setStorageError(false); } catch { setStorageError(true); } }, [rows, storageKey]);
   const visible = rows.filter(row => (filter === 'Все' || row.block === filter) && (tab === 'all' || row.score >= 0.8));
   const found = visible.filter(row => Object.values(row).some(value => String(value).toLocaleLowerCase('ru').includes(query.toLocaleLowerCase('ru'))));
   const totals: CollectionItem = { id: 'total', name: 'Итого', block: '', score: 0, quantity: 0, points: 0, shelfA: 0, shelfB: 0 };
@@ -49,7 +47,6 @@ export function Collection({ title = 'Коллекция', storageKey = 'dais-pr
       <Button className="create-action" size="s" view="accent" onClick={() => setCreating(true)}>Добавить предмет</Button>
     </div>
     <section className="metrics" aria-label="Показатели"><div><span>Количество</span><strong data-testid="quantity-total">{formatNumber(totals.quantity)}</strong></div><div><span>Баллы</span><strong>{formatNumber(totals.points)}</strong></div><div><span>Предметы</span><strong data-testid="row-count">{found.length}</strong></div><div><span>Выбрано строк</span><strong data-testid="selection-count">{selection[0].size}</strong></div></section>
-    {storageError && <p role="status">Браузер не разрешил сохранить изменения. Они доступны до перезагрузки страницы.</p>}
     <section className="table-surface" aria-label="Таблица предметов" data-testid="table-surface">
       <TableCanvas key={tableEpoch} rows={visible} columnConfig={columns} bottomSummaryRows={[totals]} tableConfig={{
         containerStyle: { height: 'max(450px, calc(100vh - 370px))' },
@@ -65,7 +62,7 @@ export function Collection({ title = 'Коллекция', storageKey = 'dais-pr
         fullScreenEnabled: true,
       }} />
     </section>
-    <p className="table-caption">Демонстрационные данные · Редактируйте ячейки, группируйте строки и меняйте колонки. Изменения сохраняются только в этом браузере.</p>
+    <p className="table-caption">Демонстрационные данные · Редактируйте ячейки, группируйте строки и меняйте колонки. Изменения сбрасываются при перезагрузке или выходе из варианта.</p>
     <ModalDF isOpen={creating} onClose={() => setCreating(false)} closeOnEsc closeOnOverlayClick aria-labelledby="dialog-title"><ModalDF.Main>
       <form className="create-dialog" onSubmit={event => { event.preventDefault(); create(); }}><span className="eyebrow">НОВАЯ ЗАПИСЬ</span><h2 id="dialog-title">Добавить предмет</h2><label htmlFor="collection-name">Название</label><TextField id="collection-name" value={name} onChange={event => setName(event.target.value)} placeholder="Например, бумажный кораблик" autoFocus /><label htmlFor="collection-quantity">Количество</label><TextField id="collection-quantity" value={amount} onChange={event => setAmount(event.target.value)} inputMode="decimal" />{error && <p role="alert">{error}</p>}<div className="dialog-actions"><Button view="clear" type="button" onClick={() => setCreating(false)}>Отмена</Button><Button view="accent" type="submit">Добавить</Button></div></form>
     </ModalDF.Main></ModalDF>

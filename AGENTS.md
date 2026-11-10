@@ -4,6 +4,7 @@
 Пользовательские варианты живут в `src/prototypes/<id>/index.tsx`; галерея обнаруживает их автоматически.
 Каждый модуль экспортирует `meta` (title, description, category) и default React-компонент.
 
+- Новый компьютер, установка программ и авторизация: `docs/GETTING_STARTED.md`.
 - Подготовка окружения: `.agents/skills/dais-setup/SKILL.md`.
 - Новый экран, PNG, изменение прототипа: `.agents/skills/dais-prototype/SKILL.md`.
 - Публикация на GitHub Pages: `.agents/skills/dais-publish/SKILL.md`.

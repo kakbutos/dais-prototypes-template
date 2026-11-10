@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('галерея, прямая ссылка, фильтр, создание, сохранение и сброс', async ({ page }) => {
+test('галерея, прямая ссылка, фильтр, создание и сброс после перезагрузки', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/');
@@ -17,7 +17,7 @@ test('галерея, прямая ссылка, фильтр, создание,
   await page.getByRole('button', { name: 'Добавить', exact: true }).click();
   await expect(page.getByTestId('row-count')).toHaveText('13');
   await page.reload();
-  await expect(page.getByTestId('row-count')).toHaveText('13');
+  await expect(page.getByTestId('row-count')).toHaveText('12');
   await page.getByRole('button', { name: 'Сбросить демо' }).click();
   await expect(page.getByTestId('row-count')).toHaveText('12');
   await page.getByRole('tab', { name: 'С высокой оценкой' }).click();
@@ -61,8 +61,9 @@ test('канвас: выбор строки, изменение количест
   await page.keyboard.press('Enter');
   await expect(page.getByTestId('quantity-total')).toHaveText('306,00');
   await page.getByRole('button', { name: 'Сохранить', exact: true }).click();
-  await page.reload();
   await expect(page.getByTestId('quantity-total')).toHaveText('306,00');
+  await page.reload();
+  await expect(page.getByTestId('quantity-total')).toHaveText('294,00');
   await page.getByRole('button', { name: 'Редактировать', exact: true }).click();
   bounds = (await canvas.boundingBox())!;
   await page.mouse.dblclick(bounds.x + 900, bounds.y + 58);
@@ -70,7 +71,7 @@ test('канвас: выбор строки, изменение количест
   await page.keyboard.press('Enter');
   await expect(page.getByTestId('quantity-total')).toHaveText('316,00');
   await page.getByRole('button', { name: 'Отменить', exact: true }).click();
-  await expect(page.getByTestId('quantity-total')).toHaveText('306,00');
+  await expect(page.getByTestId('quantity-total')).toHaveText('294,00');
 });
 
 test('галерея помещается на узком экране', async ({ page }) => {
@@ -78,4 +79,17 @@ test('галерея помещается на узком экране', async (
   await page.goto('/');
   await expect(page.getByRole('link', { name: /Коллекция/ })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+});
+
+test('новое открытие варианта начинает демо заново и не пишет в хранилища браузера', async ({ page }) => {
+  await page.goto('/#/collection');
+  const initialStorage = await page.evaluate(() => ({ local: { ...localStorage }, session: { ...sessionStorage } }));
+  await page.getByRole('button', { name: 'Добавить предмет', exact: true }).click();
+  await page.getByLabel('Название', { exact: true }).fill('Новая открытка');
+  await page.getByRole('button', { name: 'Добавить', exact: true }).click();
+  await expect(page.getByTestId('row-count')).toHaveText('13');
+  expect(await page.evaluate(() => ({ local: { ...localStorage }, session: { ...sessionStorage } }))).toEqual(initialStorage);
+  await page.getByRole('link', { name: 'Все прототипы', exact: true }).click();
+  await page.getByRole('link', { name: /Коллекция/ }).click();
+  await expect(page.getByTestId('row-count')).toHaveText('12');
 });
