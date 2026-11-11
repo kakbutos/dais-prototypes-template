@@ -6,7 +6,16 @@
 
 Начинайте с публичных экспортов `node_modules/@daisforge/ui/index.d.ts`, `icons/index.d.ts` и `tokens/index.d.ts`. Реэкспорт может вести в `node_modules/@salutejs/sdds-finai/types/components/<Component>/`; базовые типы — в `@salutejs/plasma-new-hope/types/components/`. Читать эти файлы можно, импортировать в приложение следует через публичные модули Dais.
 
-MCP помогает выбрать компонент; при несовпадении его примера с установленными типами используйте установленный API. Типы проверяют допустимость props, но не заменяют проверку их поведения. Не делайте полную сборку ради каждого предположения: сначала проверьте выбранные экспорты, затем используйте dev и typecheck по завершении группы правок.
+## TableCanvas и MCP
+
+В проверенном `@daisforge/ui-mcp@0.2.10` карточка TableCanvas ошибочно связана с `TableCanvasLoggerFiltersProps`: props counts/onChange/value и minimalUsage относятся к фильтрам журнала, не основной таблице. Для таблицы используй `src/recipes/Collection.tsx` и локальные типы: `@daisforge/ui/components/TableCanvas/TableCanvas.d.ts`, `TableCanvas/types/column-config.type.d.ts`; для Canvas.* — `TableGlide/lib/canvas/components/index.d.ts` внутри пакета. Успех mcp:check подтверждает доступность сервера, не правильность карточки. После обновления MCP перепроверь оговорку.
+
+## Окружение, цвета и размеры
+
+- `src/AppProviders.tsx` подключает светлую тему и PopupProvider для обычного приложения и HTML. Повторная обёртка PopupProvider в прототипах не нужна; ToastProvider добавляется отдельно при использовании toast.
+- Импорт токена проверяет его имя, но не назначение. Для светлого фона выбирай подходящий backgroundPrimary/surfaceSolidCard/surfaceSolidSecondary; surfaceSolidDefault не означает белый фон.
+- В canvas передавай вычисленный цвет через `getTokenValue` из `@daisforge/ui/utils`, а не строку `var(...)`. Вычисляй после применения темы в браузере; при смене темы обновляй значение.
+- Для явной пиксельной высоты TextArea передавай строку с единицей, например height="72px". Не предполагай, что числовой размер любого компонента означает пиксели; сверяй его контракт и результат.
 
 ## Tabs
 
