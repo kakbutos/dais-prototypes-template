@@ -21,7 +21,7 @@
     "publish:check": "node scripts/publish.mjs check",
     "publish:setup": "node scripts/publish.mjs setup",
     "publish:wait": "node scripts/publish.mjs wait",
-    "export:html": "npm run typecheck && vite build --mode offline && node scripts/check-html.mjs"
+    "export:html": "node scripts/export-html.mjs"
   },
   "dependencies": {
     "@daisforge/ui": "1.27.0",

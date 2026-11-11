@@ -10,3 +10,4 @@ dist-html/
 .gigacode/settings.json
 .gigacode_vsc/gigacode.jsonc
 .local/
+.references/

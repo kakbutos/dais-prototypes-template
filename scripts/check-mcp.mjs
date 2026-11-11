@@ -24,6 +24,6 @@ try {
     if (text.includes('libNotInstalled":true') || text.includes('dataVersionNotice')) throw new Error('MCP сообщил о несовпадении версии или отсутствии библиотеки');
     console.log(`✓ MCP ${name}`);
   }
-  console.log(`✓ ${tools.length} MCP-инструментов, запуск из чужой рабочей папки проверен.`);
+  console.log(`✓ ${tools.length} MCP-инструментов сервера, запуск из чужой рабочей папки проверен. Подключение текущего ИИ-клиента эта команда не проверяет.`);
 } catch (error) { console.error(error.message); process.exitCode = 1; }
 finally { await client.close(); await transport.close(); }

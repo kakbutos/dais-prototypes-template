@@ -14,6 +14,7 @@ try {
   syncSkills(root);
   npm(['run', 'doctor']);
   npm(['run', 'mcp:check']);
-  console.log('\nГотово. Перезапустите агент в этой папке и разрешите подключение dais-ui MCP.');
+  console.log('\nПодготовка файлов завершена. Перезапустите агент в этой папке для подхвата MCP и навыков, разрешите подключение dais-ui.');
+  console.log('mcp:check проверил сервер. Подключение клиента подтвердите вызовом get_component(TableCanvas) из агента. Если навыки не обнаружены, прочитайте .agents/skills напрямую.');
   console.log('Запуск: npm run dev. Запрос агенту: «Собери новый макет по этому PNG».');
 } catch (error) { console.error(error.message); process.exitCode = 1; }
