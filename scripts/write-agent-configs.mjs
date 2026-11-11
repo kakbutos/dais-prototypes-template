@@ -1,3 +1,7 @@
+/**
+ * Создаёт или обновляет настройки Dais MCP для Codex, Claude и GigaCode,
+ * сохраняя другие настройки. Вызывается при setup; также доступен прямой запуск через node.
+ */
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';

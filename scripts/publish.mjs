@@ -1,3 +1,7 @@
+/**
+ * Через GitHub CLI проверяет Pages (publish:check), настраивает его (publish:setup)
+ * или ждёт публикацию текущего коммита (publish:wait). Сам не выполняет commit и push.
+ */
 import { spawnSync } from 'node:child_process';
 import { root } from './lib.mjs';
 

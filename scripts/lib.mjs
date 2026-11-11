@@ -1,3 +1,7 @@
+/**
+ * Общие функции для служебных скриптов: путь к проекту, запуск команд и npm, проверка Node.
+ * Импортируется другими модулями; отдельно запускать не требуется.
+ */
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';

@@ -1,3 +1,7 @@
+/**
+ * Проверяет Node, версии основных зависимостей и их расположение внутри проекта;
+ * сообщает об отсутствующих конфигах MCP. Запуск: setup, Actions или npm run doctor.
+ */
 import fs from 'node:fs';
 import path from 'node:path';
 import { root, requireNode } from './lib.mjs';

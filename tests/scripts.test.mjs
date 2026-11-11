@@ -1,3 +1,7 @@
+/**
+ * Тестирует сохранение настроек при повторном setup, обработку повреждённых конфигов
+ * и защиту при создании вариантов. Запуск: npm test, в том числе в GitHub Actions.
+ */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';

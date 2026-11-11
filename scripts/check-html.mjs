@@ -1,3 +1,7 @@
+/**
+ * После экспорта проверяет, что dist-html содержит только index.html, и выводит размер.
+ * Вызывается командой npm run export:html; поведение интерфейса и сетевые запросы не проверяет.
+ */
 import fs from 'node:fs';
 import path from 'node:path';
 import { root } from './lib.mjs';

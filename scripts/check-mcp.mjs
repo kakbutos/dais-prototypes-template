@@ -1,3 +1,7 @@
+/**
+ * Проверяет MCP реальным подключением: наличие инструментов, ответы о TableCanvas
+ * и соответствие библиотеки. Запуск: setup, Actions или npm run mcp:check.
+ */
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import { root } from './lib.mjs';

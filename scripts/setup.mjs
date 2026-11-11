@@ -1,3 +1,7 @@
+/**
+ * Подготавливает проект: устанавливает зависимости из lockfile, настраивает MCP,
+ * синхронизирует навыки и запускает диагностику. Запуск: npm run setup.
+ */
 import { requireNode, npm, root } from './lib.mjs';
 import { writeAgentConfigs } from './write-agent-configs.mjs';
 import { syncSkills } from './sync-skills.mjs';

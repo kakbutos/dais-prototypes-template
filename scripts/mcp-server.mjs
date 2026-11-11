@@ -1,3 +1,7 @@
+/**
+ * Запускает установленный Dais MCP из корня проекта, даже если клиент начал
+ * работу в другой папке. Вызывается ИИ-клиентом при подключении MCP и диагностикой.
+ */
 import { root } from './lib.mjs';
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';

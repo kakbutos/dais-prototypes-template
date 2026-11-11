@@ -1,3 +1,7 @@
+/**
+ * Создаёт заготовку варианта в src/prototypes с проверкой ID и защитой от перезаписи.
+ * Запуск: npm run prototype:new -- my-screen "Название".
+ */
 import fs from 'node:fs';
 import path from 'node:path';
 import { root } from './lib.mjs';

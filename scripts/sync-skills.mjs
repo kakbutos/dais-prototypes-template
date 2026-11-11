@@ -1,3 +1,7 @@
+/**
+ * Копирует навыки из .agents/skills в папки Claude и GigaCode.
+ * Запускается при setup или командой npm run skills:sync.
+ */
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
