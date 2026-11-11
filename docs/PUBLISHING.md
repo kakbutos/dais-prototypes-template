@@ -1,13 +1,13 @@
 # Публикация на GitHub Pages
 
-Если ещё не установлены Git/GitHub CLI или не выполнен вход, сначала пройдите [подготовку компьютера и авторизацию](GETTING_STARTED.md).
+Для этого варианта нужны Git, свой репозиторий и авторизация. GitHub CLI необязателен. Если подготовка ещё не выполнена, пройдите [подготовку компьютера и авторизацию](GETTING_STARTED.md).
 
 ## Первый раз
 
 1. Убедитесь, что создан **ваш** репозиторий через Use this template. `git remote -v` должен показывать его адрес.
-2. Проверьте `gh auth status`. Если вход не выполнен: `gh auth login --hostname github.com --git-protocol https --web`, затем `gh auth setup-git --hostname github.com`. Завершите вход в браузере. Имя/email для первого коммита настройте по стартовому гиду; пароль/токен не передавайте агенту в чате.
-3. Попросите агента: «Настрой публикацию этого проекта на GitHub Pages». Он выполнит `npm run publish:setup`. Команда включает Pages с источником GitHub Actions в репозитории открытого проекта (адрес показывает `git remote -v`); нужны соответствующие права.
-4. Если CLI не может включить Pages, откройте **Settings → Pages → Build and deployment → Source → GitHub Actions**. [Официальные настройки Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
+2. Если используете gh, проверьте `gh auth status`. Если вход не выполнен: `gh auth login --hostname github.com --git-protocol https --web`, затем `gh auth setup-git --hostname github.com`. Завершите вход в браузере. Имя/email для первого коммита настройте по стартовому гиду; пароль/токен не передавайте агенту в чате.
+3. Попросите агента: «Настрой публикацию этого проекта на GitHub Pages». С gh он выполнит `npm run publish:setup`. Без gh перейдите к шагу 4; Git авторизуется через настроенный credential helper (см. стартовый гид). Команда включает Pages с источником GitHub Actions в репозитории открытого проекта (адрес показывает `git remote -v`); нужны соответствующие права.
+4. Для настройки без gh или если CLI не может включить Pages, откройте **Settings → Pages → Build and deployment → Source → GitHub Actions**. [Официальные настройки Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
 5. Агент проверяет изменения, создаёт commit и отправляет его в `main`. Откройте вкладку **Actions → Check and publish prototypes**. Если файлы уже были отправлены до включения Pages, можно нажать **Run workflow**, либо отправить следующий commit.
 6. После успешного deploy ссылка будет в **Settings → Pages**, а также в job `deploy`.
 
@@ -15,11 +15,11 @@
 
 ## Следующие публикации
 
-Пишите агенту: «Опубликуй изменения». Он проверяет приложение и diff, отправляет нужные файлы и запускает `npm run publish:wait` после push. Эта команда ждёт Actions для текущего commit до 10 минут и проверяет доступность URL. Она не создаёт commit и не отправляет файлы самостоятельно.
+Пишите агенту: «Опубликуй изменения». Он проверяет сборку и diff, отправляет нужные файлы обычным Git. С gh после push запускает `npm run publish:wait`; без gh результат проверяется во вкладке Actions для отправленного commit. Эта команда ждёт Actions для текущего commit до 10 минут и проверяет доступность URL. Она не создаёт commit и не отправляет файлы самостоятельно.
 
 ## Что выполняет Actions
 
-`npm ci` → проверки скриптов и MCP → TypeScript/Vite → Chromium-сценарии → загрузка dist → GitHub Pages.
+`npm ci` → проверки скриптов и MCP → TypeScript/Vite → загрузка dist → GitHub Pages. Браузер и браузерные автотесты в Actions не устанавливаются. Проверка интерфейса выполняется соразмерно изменению по правилам AGENTS.md.
 
 Pull request проходит проверки, но не публикуется. Изменения main публикуются после проверок. У шаблона нет backend и секретов для публикации: используются стандартные разрешения GitHub Actions `pages: write` и `id-token: write`.
 
@@ -27,7 +27,7 @@ Pull request проходит проверки, но не публикуется
 
 | Симптом | Что проверить |
 | --- | --- |
-| Нет прав / 403 | Владелец репозитория, права GitHub CLI, политика организации |
+| Нет прав / 403 | Владелец репозитория, аккаунт авторизации Git/gh и права доступа |
 | Pages недоступен для приватного репозитория | Возможности тарифа; не меняйте видимость без решения владельца |
 | Build упал | Лог failed step в Actions; исправляйте первую содержательную ошибку |
 | Белая страница / 404 | Адрес Pages и hash-route; Vite использует относительные пути assets |

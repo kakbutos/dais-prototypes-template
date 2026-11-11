@@ -4,7 +4,7 @@ import { pathToFileURL } from 'node:url';
 import { root } from './lib.mjs';
 
 export function syncSkills(projectRoot) {
-  for (const name of ['dais-setup', 'dais-prototype', 'dais-publish']) {
+  for (const name of ['dais-setup', 'dais-prototype', 'dais-publish', 'dais-export-html']) {
     const source = path.join(projectRoot, '.agents/skills', name);
     for (const client of ['.claude', '.gigacode']) {
       fs.cpSync(source, path.join(projectRoot, client, 'skills', name), { recursive: true });
